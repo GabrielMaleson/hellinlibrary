@@ -1,10 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\olavo_9bp7hdh\\Desktop\\Create with Code\\My project (1)\\",
+  "WorkspaceRootPath": "C:\\Users\\olavo_9bp7hdh\\Documents\\GitHub\\hellinlibrary\\hellinlibrary\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E1CE1FEE-67BE-6533-73AA-CC578BE80DCD}|Assembly-CSharp.csproj|c:\\users\\olavo_9bp7hdh\\desktop\\create with code\\my project (1)\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1CE1FEE-67BE-6533-73AA-CC578BE80DCD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CED30B00-6067-0FD5-870F-C19467CAB82A}|Assembly-CSharp.csproj|c:\\users\\olavo_9bp7hdh\\documents\\github\\hellinlibrary\\hellinlibrary\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CED30B00-6067-0FD5-870F-C19467CAB82A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,9 +20,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\olavo_9bp7hdh\\Desktop\\Create with Code\\My project (1)\\Assets\\Scripts\\PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\olavo_9bp7hdh\\Documents\\GitHub\\hellinlibrary\\hellinlibrary\\Assets\\Scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\olavo_9bp7hdh\\Desktop\\Create with Code\\My project (1)\\Assets\\Scripts\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\olavo_9bp7hdh\\Documents\\GitHub\\hellinlibrary\\hellinlibrary\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
