@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e466a8a055695e4c82743bd5da87f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraOffset: {x: 0, y: 5, z: -10}
+  cameraSmoothSpeed: 0.125
   playerPrefab: {fileID: 7119176949621798014, guid: 1a0a619c225aac64aa46f68c6b27583e, type: 3}
   playerSpawnerPosition: {fileID: 246190210}
 --- !u!4 &546590410
@@ -261,7 +263,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c676d877ef241ab4686e2f237b1e2f13, type: 2}
+  - {fileID: 2100000, guid: e4773c84a9acb204b9f561dea46a6687, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -317,6 +319,7 @@ GameObject:
   - component: {fileID: 1105394809}
   - component: {fileID: 1105394808}
   - component: {fileID: 1105394807}
+  - component: {fileID: 1105394810}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -398,6 +401,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 29.984, y: 0, z: 0}
+--- !u!114 &1105394810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105394806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e37b31d7c3033c14fb39e7912d839b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  MouseSensitivity: 10
+  verticalRotation: 0
+  horizontalRotation: 0
 --- !u!1 &1979953174
 GameObject:
   m_ObjectHideFlags: 0
