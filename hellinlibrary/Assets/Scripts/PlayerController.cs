@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     #region Private Fields
 
-    public static GameObject Instance;
     public static GameObject LocalPlayerInstance;
     private Rigidbody _rb;
     private TMP_Text _namePlayer;
@@ -35,52 +34,58 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
-        //if (Instance == null)
-        //{
-        //    Instance = this.gameObject;
-        //}
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody>();
-        _namePlayer = GetComponentInChildren<TMP_Text>();
-
         if (photonView.IsMine)
         {
-            if (LocalPlayerInstance != null) { LocalPlayerInstance = this.gameObject; }
-            _nickname = PhotonNetwork.LocalPlayer.NickName;
-            _namePlayer.text = _nickname;
+            LocalPlayerInstance = this.gameObject;
         }
-        else
-        {
-            _namePlayer.text = _nickname;
-        }
-
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
+        // Assign Rigidbody
+        _rb = GetComponent<Rigidbody>();
+        if (_rb == null)
+        {
+            Debug.LogError("Rigidbody component is missing on the Player GameObject.");
+            return;
+        }
+
+        // Assign TMP_Text
+        _namePlayer = GetComponentInChildren<TMP_Text>();
+        if (_namePlayer == null)
+        {
+            Debug.LogError("TMP_Text component is missing in the Player GameObject's children.");
+            return;
+        }
+
+        // Set nickname
+        _nickname = photonView.IsMine ? PhotonNetwork.LocalPlayer.NickName : _nickname;
+        _namePlayer.text = _nickname;
+    }
+
+    private void Update()
+    {
+        if (!photonView.IsMine) return;
+
+        // Handle player input
         float moveH = Input.GetAxis("Horizontal");
         float moveV = Input.GetAxis("Vertical");
         bool isJumpPressed = Input.GetButtonDown("Jump");
         float jump = isJumpPressed ? _rb.velocity.y + JumpForce : _rb.velocity.y;
+
         Movement = new Vector3(moveH * PlayerSpeed, jump, moveV * PlayerSpeed);
     }
-
 
     private void FixedUpdate()
     {
         if (photonView.IsMine)
         {
-            // local player
+            // Local player
             _rb.velocity = Movement;
         }
         else
         {
-            // network player
+            // Network player interpolation
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
         }
     }
@@ -89,24 +94,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext((Vector3)transform.position);
+            // Send data to other clients
+            stream.SendNext(transform.position);
             stream.SendNext(_nickname);
         }
         else
         {
+            // Receive data from other clients
             networkPosition = (Vector3)stream.ReceiveNext();
             _nickname = (string)stream.ReceiveNext();
 
-            if (photonView.IsMine)
-            {
-                _namePlayer.text = PhotonNetwork.LocalPlayer.NickName;
-            }
-            else
-            {
-                _namePlayer.text = _nickname;
-            }
+            // Update name display
+            _namePlayer.text = _nickname;
         }
-
-
     }
 }

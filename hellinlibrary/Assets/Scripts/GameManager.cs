@@ -8,11 +8,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
 
-    [SerializeField] GameObject devilPrefab; // Reference to Devil prefab
-    [SerializeField] Transform devilSpawnerPosition; // Spawn position for Devil
-
-    [SerializeField] GameObject humanPrefab; // Reference to Human prefab
-    [SerializeField] Transform humanSpawnerPosition; // Spawn position for Human
+    [SerializeField] private string devilPrefabName = "Devil"; // Prefab name for Devil
+    [SerializeField] private string humanPrefabName = "Human"; // Prefab name for Human
+    [SerializeField] private Transform spawnPointDevil; // Spawn point for Devil
+    [SerializeField] private Transform spawnPointHuman; // Spawn point for Human
 
     public void Awake()
     {
@@ -29,13 +28,33 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 // Spawn Devil for the room creator
-                PhotonNetwork.Instantiate("Prefabs/" + devilPrefab.name, devilSpawnerPosition.position, Quaternion.identity);
+                PhotonNetwork.Instantiate("Prefabs/" + devilPrefabName, spawnPointDevil.position, Quaternion.identity);
             }
             else
             {
                 // Spawn Human for other players
-                PhotonNetwork.Instantiate("Prefabs/" + humanPrefab.name, humanSpawnerPosition.position, Quaternion.identity);
+                PhotonNetwork.Instantiate("Prefabs/" + humanPrefabName, spawnPointHuman.position, Quaternion.identity);
             }
         }
+    }
+
+    public override void OnCreatedRoom()
+    {
+        Debug.Log("Room created successfully.");
+        SpawnPlayer(devilPrefabName, spawnPointDevil.position, spawnPointDevil.rotation);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            SpawnPlayer(humanPrefabName, spawnPointHuman.position, spawnPointHuman.rotation);
+        }
+    }
+
+    private void SpawnPlayer(string prefabName, Vector3 position, Quaternion rotation)
+    {
+        PhotonNetwork.Instantiate(prefabName, position, rotation);
+        Debug.Log($"Spawned {prefabName} at {position}");
     }
 }
