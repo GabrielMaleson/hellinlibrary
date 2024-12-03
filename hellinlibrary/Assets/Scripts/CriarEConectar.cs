@@ -15,6 +15,10 @@ public class CriarEConectar : MonoBehaviourPunCallbacks
 
     [SerializeField] private TMP_InputField _nickname;
     [SerializeField] private TMP_InputField _roomID;
+    [SerializeField] private string devilPrefabName = "Devil"; // Prefab name for Devil
+    [SerializeField] private string humanPrefabName = "Human"; // Prefab name for Human
+    [SerializeField] private Transform spawnPointDevil; // Spawn point for Devil
+    [SerializeField] private Transform spawnPointHuman; // Spawn point for Human
     private RoomOptions _options = new RoomOptions();
 
     #endregion
@@ -28,7 +32,7 @@ public class CriarEConectar : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        _options.MaxPlayers = 4;
+        _options.MaxPlayers = 5;
         _options.IsVisible = true;
         _options.IsOpen = true;
     }
@@ -49,6 +53,11 @@ public class CriarEConectar : MonoBehaviourPunCallbacks
         Debug.Log(code);
         return code;
     }
+    private void SpawnPlayer(string prefabName, Vector3 position, Quaternion rotation)
+{
+    PhotonNetwork.Instantiate(prefabName, position, rotation);
+    Debug.Log($"Spawned {prefabName} at {position}");
+}
 
     public void CriaSala()
     {
@@ -79,6 +88,11 @@ public class CriarEConectar : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.NickName = _nickname.text;
         Debug.Log(PhotonNetwork.LocalPlayer.NickName);
     }
+    public override void OnCreatedRoom()
+    {
+        Debug.Log("Room created successfully.");
+        SpawnPlayer(devilPrefabName, spawnPointDevil.position, spawnPointDevil.rotation);
+    }
 
     #endregion
 
@@ -89,6 +103,11 @@ public class CriarEConectar : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
 
         PhotonNetwork.LoadLevel("LobbyGame");
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            SpawnPlayer(humanPrefabName, spawnPointHuman.position, spawnPointHuman.rotation);
+        }
     }
 
     #endregion

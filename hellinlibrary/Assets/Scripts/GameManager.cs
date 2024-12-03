@@ -6,10 +6,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-
     public static GameManager Instance;
-    [SerializeField] GameObject playerPrefab;
-    [SerializeField] Transform playerSpawnerPosition;
+
+    [SerializeField] GameObject devilPrefab; // Reference to Devil prefab
+    [SerializeField] Transform devilSpawnerPosition; // Spawn position for Devil
+
+    [SerializeField] GameObject humanPrefab; // Reference to Human prefab
+    [SerializeField] Transform humanSpawnerPosition; // Spawn position for Human
 
     public void Awake()
     {
@@ -21,10 +24,18 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-
         if (PlayerController.LocalPlayerInstance == null)
         {
-            PhotonNetwork.Instantiate("Prefabs/" + playerPrefab.name, playerSpawnerPosition.position, Quaternion.identity);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                // Spawn Devil for the room creator
+                PhotonNetwork.Instantiate("Prefabs/" + devilPrefab.name, devilSpawnerPosition.position, Quaternion.identity);
+            }
+            else
+            {
+                // Spawn Human for other players
+                PhotonNetwork.Instantiate("Prefabs/" + humanPrefab.name, humanSpawnerPosition.position, Quaternion.identity);
+            }
         }
     }
 }

@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: -1104763658249742074}
   - component: {fileID: -1003503222881665344}
   - component: {fileID: 2230457525957416648}
+  - component: {fileID: -6194954867225368226}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Devil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,6 +188,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.66, y: 3.86, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6194954867225368226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7119176949621798014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dece2ade77aa30e4dad00210144bff3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  human: {fileID: 7221974398073068903, guid: 57f3bfe801569f64f9b3737353c83941, type: 3}
+  attackCooldown: 2
+  clawHitbox: {fileID: 0}
 --- !u!1 &7169758180427874633
 GameObject:
   m_ObjectHideFlags: 0
