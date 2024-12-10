@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
     }
+    public Coroutine RunCoroutine(IEnumerator routine)
+    {
+        return StartCoroutine(routine);
+    }
 
     void Start()
     {

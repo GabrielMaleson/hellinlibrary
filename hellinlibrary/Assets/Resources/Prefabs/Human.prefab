@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.9465013, y: 9.7447815}
+  m_AnchoredPosition: {x: -0.1, y: 1.86}
   m_SizeDelta: {x: 4.3293, y: 0.8537}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2246864337445016130
@@ -279,6 +279,8 @@ GameObject:
   - component: {fileID: -7638216661657267866}
   - component: {fileID: 1199814511369974159}
   - component: {fileID: 5641501058907877129}
+  - component: {fileID: 7954614615381113712}
+  - component: {fileID: 4113929438336777814}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -459,3 +461,36 @@ MonoBehaviour:
   pickupRange: 2
   fallenPrefab: {fileID: 0}
   _playerSpeed: 10
+--- !u!114 &7954614615381113712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6288102064512353006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5cf5a37c51bc704780299dbd0895a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBooks: 5
+  baseSpeed: 5
+  speedReductionPerBook: 0.5
+  humanSpeed: 0
+  pickupRange: 2
+  fallenPrefab: {fileID: 8422110555491226580, guid: cd130986d87b4704d8c6e66a1f47dceb, type: 3}
+  _playerSpeed: 10
+--- !u!114 &4113929438336777814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6288102064512353006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b45a00a78df0e4cb350609d4f13955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  healthBar: {fileID: 0}

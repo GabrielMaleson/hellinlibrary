@@ -14,26 +14,28 @@ public class HumanUI : Character
         currentHealth = maxHealth;
         UpdateHealthUi();
     }
-   
+
     public override void TakeDamage(float damage)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUi();
 
-        if(currentHealth <= 0.01f)
+        if (currentHealth <= 0.01f)
         {
             Debug.Log("Human has died!");
-            Destroy(gameObject);
+
+            RespawnHuman();
+
         }
 
     }
-    
+
     private void UpdateHealthUi()
     {
         healthBar.value = currentHealth / maxHealth;
 
-        if (currentHealth >= 75 )
+        if (currentHealth >= 75)
             healthBar.fillRect.GetComponent<Image>().color = Color.green;
         else if (currentHealth >= 50)
             healthBar.fillRect.GetComponent<Image>().color = Color.yellow;
@@ -42,10 +44,26 @@ public class HumanUI : Character
     }
 
 
+    public void RespawnHuman()
+    {
+        GameManager.Instance.RunCoroutine(HumanRespawn());
+    }
+    private IEnumerator HumanRespawn()
+    {
+        gameObject.SetActive(false);
+        yield return new WaitForSeconds(3);
+        gameObject.SetActive(true);
+
+        currentHealth = maxHealth;
+        UpdateHealthUi();
+
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 }
