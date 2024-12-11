@@ -10,6 +10,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public int maxBooks = 5;
     private int currentBooks = 0;
+    private int deliveredBooks;
     public float baseSpeed = 5.0f;
     public float speedReductionPerBook = 0.5f;
     public float humanSpeed;
@@ -113,8 +114,25 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void DeliverBooks()
     {
-        Debug.Log($"Delivered {currentBooks} books to Fallen!");
+        deliveredBooks += currentBooks;
 
+        if (currentBooks == 1)
+        {
+            Debug.Log($"Delivered {currentBooks} book to Fallen!");
+        }
+        else
+        {
+            Debug.Log($"Delivered {currentBooks} books to Fallen!");
+        }
+
+        if (deliveredBooks >= 10)
+        {
+            Debug.Log($"Delivered {deliveredBooks} books to Fallen! You are FREED from the curse!");
+        }
+        else
+        {
+            Debug.Log($"Delivered {deliveredBooks} books so far to Fallen!");
+        }
         // Zera os livros carregados
         currentBooks = 0;
         carriedBooks.Clear();

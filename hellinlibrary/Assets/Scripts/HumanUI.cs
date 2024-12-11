@@ -8,7 +8,6 @@ public class HumanUI : Character, IPunObservable
     public Slider healthBar;
     private float maxHealth = 100f;
     private float currentHealth;
-
     void Start()
     {
         currentHealth = maxHealth;
@@ -72,7 +71,7 @@ public class HumanUI : Character, IPunObservable
         {
             // Receive data from the master client
             currentHealth = (float)stream.ReceiveNext();
-            UpdateHealthUi();
         }
+        UpdateHealthUi();
     }
 }
