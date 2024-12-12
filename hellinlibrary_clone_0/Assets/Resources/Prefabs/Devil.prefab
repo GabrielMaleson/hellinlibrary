@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 525798071712147862}
   m_Layer: 0
   m_Name: Claw Attack
-  m_TagString: Untagged
+  m_TagString: Claw
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 8501313637288567432}
   m_Layer: 0
   m_Name: Devil
-  m_TagString: Untagged
+  m_TagString: Devil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -386,9 +386,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  human: {fileID: 0}
+  human: {fileID: 9201277911318552140, guid: 57f3bfe801569f64f9b3737353c83941, type: 3}
   attackCooldown: 1.5
-  clawHitbox: {fileID: 4226225051410451497}
+  clawHitBox: {fileID: 4226225051410451497}
 --- !u!114 &2826863609606236590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,6 +500,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 2984562009587468315}
   - {fileID: 2826863609606236590}
   sceneViewId: 0
   InstantiationId: 0

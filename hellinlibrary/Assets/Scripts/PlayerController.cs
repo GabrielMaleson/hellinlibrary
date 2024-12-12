@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     #region Properties
 
     public Vector3 Movement { get; set; }
-    public float PlayerSpeed
+    
+    public float speed
     {
         get => _playerSpeed;
         set => _playerSpeed = value;
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         float moveV = Input.GetAxis("Vertical");
         float jump = _rb.velocity.y;
 
-        Movement = new Vector3(moveH * PlayerSpeed, jump, moveV * PlayerSpeed);
+        Movement = new Vector3(moveH * speed, jump, moveV * speed);
     }
 
     private void FixedUpdate()

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -8,25 +9,29 @@ public class HumanUI : Character, IPunObservable
     public Slider healthBar;
     private float maxHealth = 100f;
     private float currentHealth;
+    private int totalHumanDeaths;
+    private PhotonView photonView;
 
     void Start()
     {
+        photonView = GetComponent<PhotonView>();
         currentHealth = maxHealth;
         UpdateHealthUi();
     }
 
     public override void TakeDamage(float damage)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthUi();
-
-        if (currentHealth <= 0.01f)
+        if (photonView.IsMine)
         {
-            Debug.Log("Human has died!");
-            RespawnHuman();
+            currentHealth -= damage;
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+            UpdateHealthUi();
+
+            if (currentHealth <= 0.01f)
+            {
+                Debug.Log("Human has died!");
+                photonView.RPC("RespawnHumanRPC", RpcTarget.All);
+            }
         }
     }
 
@@ -42,15 +47,30 @@ public class HumanUI : Character, IPunObservable
             healthBar.fillRect.GetComponent<Image>().color = Color.red;
     }
 
-    public void RespawnHuman()
+    [PunRPC]
+    public void RespawnHumanRPC()
     {
-        if (PhotonNetwork.IsMasterClient)
-            GameManager.Instance.RunCoroutine(HumanRespawn());
+        StartCoroutine(HumanRespawn());
     }
 
     private IEnumerator HumanRespawn()
     {
         gameObject.SetActive(false);
+
+        if (photonView.IsMine)
+        {
+            totalHumanDeaths += 1;
+
+            if (totalHumanDeaths == 4)
+            {
+                Debug.Log("4 humans killed! DEVIL WINS THE GAME");
+            }
+            else
+            {
+                Debug.Log($"Human was killed. Total Humans killed: {totalHumanDeaths}");
+            }
+        }
+
         yield return new WaitForSeconds(3);
         gameObject.SetActive(true);
 
@@ -58,20 +78,29 @@ public class HumanUI : Character, IPunObservable
         UpdateHealthUi();
     }
 
-    void Update() { }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Claw"))
+        {
+            if (photonView.IsMine)
+            {
+                TakeDamage(25f);
+                Debug.Log("Human took 25 damage");
+            }
+        }
+    }
 
-    // Synchronize data with Photon
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            // Send data to other clients
             stream.SendNext(currentHealth);
+            stream.SendNext(totalHumanDeaths);
         }
         else
         {
-            // Receive data from the master client
             currentHealth = (float)stream.ReceiveNext();
+            totalHumanDeaths = (int)stream.ReceiveNext();
             UpdateHealthUi();
         }
     }

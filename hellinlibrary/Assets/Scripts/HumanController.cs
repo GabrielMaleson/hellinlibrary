@@ -18,8 +18,8 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     private float dropHoldTime = 0f;
     private bool hasDroppedAllBooks = false;
 
-    private float stackHeight = -0.5f; // Altura atual da pilha de livros
-    private float stackIncrement = 0.05f; // Incremento vertical para cada livro
+    private float stackHeight = -0.5f; // Current stack height of books
+    private float stackIncrement = 0.05f; // Vertical increment for each book
 
     private Vector3 lastPosition;
 
@@ -52,6 +52,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     #endregion
+
     private void UpdateSpeed()
     {
         switch (currentBooks)
@@ -59,11 +60,9 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
             case 1:
                 humanSpeed = baseSpeed;
                 break;
-
             case 2:
                 humanSpeed = baseSpeed * 0.95f;
                 break;
-
             case 3:
                 humanSpeed = baseSpeed * 0.90f;
                 break;
@@ -78,51 +77,65 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
                 break;
         }
     }
+
     private void FindNearestBook()
     {
         nearestBook = null;
-        float closestDistance = float.MaxValue; // We need to compare distances between the player and each book. Starting with an arbitrarily large value ensures that the first book we find will automatically become the "closest."
+        float closestDistance = float.MaxValue;
 
         GameObject[] books = GameObject.FindGameObjectsWithTag("Book");
         foreach (GameObject book in books)
         {
-            float distance = Vector3.Distance(transform.position, book.transform.position); // distance between player and book
+            float distance = Vector3.Distance(transform.position, book.transform.position);
 
-            if (distance <= pickupRange && distance < closestDistance) // Check if the book is within range
+            if (distance <= pickupRange && distance < closestDistance)
             {
                 closestDistance = distance;
-                nearestBook = book; // Update the nearest book
+                nearestBook = book;
             }
         }
-
-
     }
 
     public void PickUpBook(GameObject book)
     {
-        if (currentBooks < maxBooks) // Only pick up if haven't reached maxBooks
+        if (currentBooks < maxBooks)
         {
-            carriedBooks.Add(book);
-            currentBooks++;
-
-            UpdateSpeed();
-
-            book.SetActive(false);
-
+            photonView.RPC(nameof(RPC_PickUpBook), RpcTarget.AllBuffered, book.GetComponent<PhotonView>().ViewID);
         }
+    }
+
+    [PunRPC]
+    private void RPC_PickUpBook(int bookViewID)
+    {
+        GameObject book = PhotonView.Find(bookViewID).gameObject;
+
+        carriedBooks.Add(book);
+        currentBooks++;
+        UpdateSpeed();
+
+        book.SetActive(false);
     }
 
     private void DeliverBooks()
     {
-        deliveredBooks += currentBooks;
-
-        if (currentBooks == 1)
+        if (currentBooks > 0)
         {
-            Debug.Log($"Delivered {currentBooks} book to Fallen!");
+            photonView.RPC(nameof(RPC_DeliverBooks), RpcTarget.AllBuffered, currentBooks);
+        }
+    }
+
+    [PunRPC]
+    private void RPC_DeliverBooks(int booksToDeliver)
+    {
+        deliveredBooks += booksToDeliver;
+
+        if (booksToDeliver == 1)
+        {
+            Debug.Log($"Delivered {booksToDeliver} book to Fallen!");
         }
         else
         {
-            Debug.Log($"Delivered {currentBooks} books to Fallen!");
+            Debug.Log($"Delivered {booksToDeliver} books to Fallen!");
         }
 
         if (deliveredBooks >= 10)
@@ -133,70 +146,72 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log($"Delivered {deliveredBooks} books so far to Fallen!");
         }
-        // Zera os livros carregados
+
         currentBooks = 0;
         carriedBooks.Clear();
-
-        // Atualiza a velocidade para o estado sem livros
         UpdateSpeed();
     }
 
     public void DropBook()
     {
-        if (currentBooks > 0) // Only drop if carrying at least one book
+        if (currentBooks > 0)
         {
             GameObject bookToDrop = carriedBooks[carriedBooks.Count - 1];
-
             carriedBooks.Remove(bookToDrop);
-            currentBooks--;
-            UpdateSpeed();
 
-            bookToDrop.SetActive(true);
-            bookToDrop.transform.position = transform.position + new Vector3(0, stackHeight, 0); //
-
-            stackHeight += stackIncrement; // posicionamento do livro muda quanto mais livros forem dropados no mesmo spot
-
+            photonView.RPC(nameof(RPC_DropBook), RpcTarget.AllBuffered, bookToDrop.GetComponent<PhotonView>().ViewID);
         }
+    }
+
+    [PunRPC]
+    private void RPC_DropBook(int bookViewID)
+    {
+        GameObject book = PhotonView.Find(bookViewID).gameObject;
+
+        currentBooks--;
+        UpdateSpeed();
+
+        book.SetActive(true);
+        book.transform.position = transform.position + new Vector3(0, stackHeight, 0);
+        stackHeight += stackIncrement;
     }
 
     public void DropAllBooks()
     {
-        stackHeight = -0.5f; // zera o posicionamento do livro
-
+        stackHeight = -0.5f;
         while (currentBooks > 0)
         {
-            DropBook(); // dropa todos os livros ate livros = 0
+            DropBook();
         }
-
-        stackHeight = -0.5f;
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Book"))
         {
             nearestBook = other.gameObject;
-
         }
 
         if (other.gameObject == fallenPrefab)
         {
-            nearFallen = true; // Enter fallen radius
+            nearFallen = true;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Book"))
         {
-            nearestBook = null; // Clear the reference to the nearby book
+            nearestBook = null;
         }
+
         if (other.gameObject == fallenPrefab)
         {
             nearFallen = false;
-            dropHoldTime = 0f; // Leaves fallen radius
+            dropHoldTime = 0f;
         }
     }
+
     private void Awake()
     {
         if (photonView.IsMine)
@@ -207,23 +222,9 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
-        // Assign Rigidbody
         _rb = GetComponent<Rigidbody>();
-        if (_rb == null)
-        {
-            Debug.LogError("Rigidbody component is missing on the Player GameObject.");
-            return;
-        }
-
-        // Assign TMP_Text
         _namePlayer = GetComponentInChildren<TMP_Text>();
-        if (_namePlayer == null)
-        {
-            Debug.LogError("TMP_Text component is missing in the Player GameObject's children.");
-            return;
-        }
 
-        // Set nickname
         _nickname = photonView.IsMine ? PhotonNetwork.LocalPlayer.NickName : _nickname;
         _namePlayer.text = _nickname;
     }
@@ -232,80 +233,71 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine) return;
 
-        // Handle player input
         float moveH = Input.GetAxis("Horizontal");
         float moveV = Input.GetAxis("Vertical");
         float jump = _rb.velocity.y;
 
         Movement = new Vector3(moveH * PlayerSpeed, jump, moveV * PlayerSpeed);
+        FindNearestBook();
+
+        if (Input.GetKeyDown(KeyCode.Space) && nearestBook != null)
         {
-            FindNearestBook();
+            PickUpBook(nearestBook);
+        }
 
-            if (Input.GetKeyDown(KeyCode.Space) && nearestBook != null)
-            {
-                PickUpBook(nearestBook);
-            }
-
-            if (nearFallen && currentBooks > 0)
-            {
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    dropHoldTime += Time.deltaTime; // Incrementa o tempo de hold
-
-                    if (dropHoldTime >= 1.0f) // tempo de entrega
-                    {
-                        DeliverBooks();
-                        dropHoldTime = 0f;
-                    }
-                }
-                else
-                {
-                    dropHoldTime = 0f; // impede jogador de quebrar a mecanica de hold
-                }
-            }
-            else if (Input.GetKey(KeyCode.Q) && currentBooks > 0)
+        if (nearFallen && currentBooks > 0)
+        {
+            if (Input.GetKey(KeyCode.Q))
             {
                 dropHoldTime += Time.deltaTime;
-
-
-                if (dropHoldTime > 1.0f && !hasDroppedAllBooks)
+                if (dropHoldTime >= 1.0f)
                 {
-                    DropAllBooks();
-                    dropHoldTime = 0f; // Reseta o contador
-                    hasDroppedAllBooks = true;
+                    DeliverBooks();
+                    dropHoldTime = 0f;
                 }
             }
-
-            else if (Input.GetKeyUp(KeyCode.Q))
+            else
             {
-                if (!hasDroppedAllBooks && dropHoldTime <= 1.0f && currentBooks > 0) // Quick release
-                {
-                    DropBook(); // Drop a single book
-                }
-
-                // Reset hold time and drop state
                 dropHoldTime = 0f;
-                hasDroppedAllBooks = false;
             }
-
-            if (transform.position != lastPosition) // If position changes
-            {
-                stackHeight = -0.5f; // Reset the stack height
-            }
-            lastPosition = transform.position;
-
         }
+        else if (Input.GetKey(KeyCode.Q) && currentBooks > 0)
+        {
+            dropHoldTime += Time.deltaTime;
+
+            if (dropHoldTime > 1.0f && !hasDroppedAllBooks)
+            {
+                DropAllBooks();
+                dropHoldTime = 0f;
+                hasDroppedAllBooks = true;
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Q))
+        {
+            if (!hasDroppedAllBooks && dropHoldTime <= 1.0f && currentBooks > 0)
+            {
+                DropBook();
+            }
+
+            dropHoldTime = 0f;
+            hasDroppedAllBooks = false;
+        }
+
+        if (transform.position != lastPosition)
+        {
+            stackHeight = -0.5f;
+        }
+        lastPosition = transform.position;
     }
+
     private void FixedUpdate()
     {
         if (photonView.IsMine)
         {
-            // Local player
             _rb.velocity = Movement;
         }
         else
         {
-            // Network player interpolation
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
         }
     }
@@ -314,17 +306,13 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            // Send data to other clients
             stream.SendNext(transform.position);
             stream.SendNext(_nickname);
         }
         else
         {
-            // Receive data from other clients
             networkPosition = (Vector3)stream.ReceiveNext();
             _nickname = (string)stream.ReceiveNext();
-
-            // Update name display
             _namePlayer.text = _nickname;
         }
     }

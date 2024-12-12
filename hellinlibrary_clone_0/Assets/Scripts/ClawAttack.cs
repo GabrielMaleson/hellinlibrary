@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun; // Required for Photon Networking
 
-public class ClawAttack : MonoBehaviour
+public class ClawAttack : MonoBehaviour, IPunObservable
 {
     private Devil devil;
-    //public Human human;
+    private PhotonView photonView; // Reference to PhotonView
+
+    // Example state to sync (e.g., damage applied or other state variables)
+    private float syncedDamage;
+
     // Start is called before the first frame update
     void Start()
     {
-         
         AssignDevilReference();
-    
-        //human = GetComponent<Human>();
+
+        // Get the PhotonView component
+        photonView = GetComponent<PhotonView>();
     }
 
     private void AssignDevilReference()
@@ -24,15 +29,22 @@ public class ClawAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Example: Update synced state
+        if (photonView.IsMine)
+        {
+            // Simulate some logic for demonstration
+            syncedDamage = Random.Range(10f, 30f); // Replace with actual logic
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-         if (devil == null)
+        if (photonView != null && !photonView.IsMine)
         {
-            AssignDevilReference(); // Reassign if the reference is lost
+            // Exit if this object is not owned by the local player
+            return;
         }
+
         if (other.CompareTag("Human"))
         {
             // Try to get the HumanUI component
@@ -40,14 +52,25 @@ public class ClawAttack : MonoBehaviour
 
             if (target != null)
             {
-                // Apply speed effects to Devil and Human    
-                // devil.ApplySpeedDebuff(0.2f, 2.0f);
-                // target.ApplySpeedBoost(1.5f, 2.0f);
-                
-                target.TakeDamage(25f);
-                Debug.Log("Human took 1 dmg");
+                // Apply damage and sync state
+                target.TakeDamage(syncedDamage);
+                Debug.Log($"Human took {syncedDamage} dmg");
             }
         }
-    
+    }
+
+    // Synchronize data across the network
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // Send data to others
+            stream.SendNext(syncedDamage);
+        }
+        else
+        {
+            // Receive data from others
+            syncedDamage = (float)stream.ReceiveNext();
+        }
     }
 }
