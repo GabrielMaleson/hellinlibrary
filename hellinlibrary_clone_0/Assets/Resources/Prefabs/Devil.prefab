@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 8750960509478313458}
   - component: {fileID: 525798071712147862}
   m_Layer: 0
-  m_Name: Claw Attack
+  m_Name: clawHitbox
   m_TagString: Claw
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +309,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 8750960509478313458}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

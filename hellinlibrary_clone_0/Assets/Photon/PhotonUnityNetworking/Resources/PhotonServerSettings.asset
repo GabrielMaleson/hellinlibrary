@@ -41,6 +41,11 @@ MonoBehaviour:
   - RespawnSpaceship
   - RecebeMensagem
   - DeliverBooksRPC
+  - AttackRPC
+  - RespawnHumanRPC
+  - RPC_DeliverBooks
+  - RPC_DropBook
+  - RPC_PickUpBook
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

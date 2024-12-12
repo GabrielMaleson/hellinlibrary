@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -8,6 +9,8 @@ public class Human : Character, IPunObservable
     public Slider healthBar;
     private float maxHealth = 100f;
     private float currentHealth;
+    private int totalHumanDeaths;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -16,7 +19,7 @@ public class Human : Character, IPunObservable
 
     public override void TakeDamage(float damage)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        if (!PhotonNetwork.IsMasterClient) return; // Ensure damage calculations happen only on the master client
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -43,13 +46,26 @@ public class Human : Character, IPunObservable
 
     public void RespawnHuman()
     {
-        if (PhotonNetwork.IsMasterClient)
-            GameManager.Instance.RunCoroutine(HumanRespawn());
+        if (!PhotonNetwork.IsMasterClient) return; // Ensure respawn logic happens only on the master client
+
+        GameManager.Instance.RunCoroutine(HumanRespawn());
     }
 
     private IEnumerator HumanRespawn()
     {
         gameObject.SetActive(false);
+
+        totalHumanDeaths += 1;
+
+        if (totalHumanDeaths == 4)
+        {
+            Debug.Log("4 humans killed! DEVIL WINS THE GAME");
+        }
+        else
+        {
+            Debug.Log($"Human was killed. Total Humans killed: {totalHumanDeaths}");
+        }
+
         yield return new WaitForSeconds(3);
         gameObject.SetActive(true);
 
@@ -57,21 +73,36 @@ public class Human : Character, IPunObservable
         UpdateHealthUi();
     }
 
-    void Update() { }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Claw"))
+        {
+            TakeDamage(25f);
+            Debug.Log("Human took 25 damage");
+        }
+    }
 
-    // Synchronize data with Photon
+    void Update()
+    {
+        // Any additional per-frame logic
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             // Send data to other clients
             stream.SendNext(currentHealth);
+            stream.SendNext(totalHumanDeaths);
         }
         else
         {
-            // Receive data from the master client
+            // Receive data from other clients
             currentHealth = (float)stream.ReceiveNext();
+            totalHumanDeaths = (int)stream.ReceiveNext();
+
+            // Update UI after receiving updated health
+            UpdateHealthUi();
         }
-        UpdateHealthUi();
     }
 }

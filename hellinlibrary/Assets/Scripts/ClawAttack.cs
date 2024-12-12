@@ -11,21 +11,6 @@ public class ClawAttack : MonoBehaviour, IPunObservable
     // Example state to sync (e.g., damage applied or other state variables)
     private float syncedDamage;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        AssignDevilReference();
-
-        // Get the PhotonView component
-        photonView = GetComponent<PhotonView>();
-    }
-
-    private void AssignDevilReference()
-    {
-        // Dynamically fetch the Devil component from the parent or the scene
-        devil = GetComponentInParent<Devil>();
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +18,7 @@ public class ClawAttack : MonoBehaviour, IPunObservable
         if (photonView.IsMine)
         {
             // Simulate some logic for demonstration
-            syncedDamage = Random.Range(10f, 30f); // Replace with actual logic
+            syncedDamage = 25f;
         }
     }
 

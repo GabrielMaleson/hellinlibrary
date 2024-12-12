@@ -37,7 +37,7 @@ public class Devil : Character, IPunObservable
             playerController.Movement = transform.forward;
         }
 
-        Vector3 spawnPosition = transform.position + playerController.Movement * 1.2f;
+        Vector3 spawnPosition = transform.position + playerController.Movement;
 
         clawHitBox.transform.position = spawnPosition;
 
