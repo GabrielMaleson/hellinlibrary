@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform spawnPointDevil; // Spawn point for Devil
     [SerializeField] private Transform spawnPointHuman; // Spawn point for Human
 
+    [SerializeField] private GameObject victoryScreen; // UI Canvas for victory (set this in the Unity Editor)
+
     public void Awake()
     {
         if (Instance == null)
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Instance = this;
         }
     }
+
     public Coroutine RunCoroutine(IEnumerator routine)
     {
         return StartCoroutine(routine);
@@ -27,16 +30,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                // Spawn Devil for the room creator
-                PhotonNetwork.Instantiate("Prefabs/" + devilPrefabName, spawnPointDevil.position, Quaternion.identity);
-            }
-            else
-            {
-                // Spawn Human for other players
-                PhotonNetwork.Instantiate("Prefabs/" + humanPrefabName, spawnPointHuman.position, Quaternion.identity);
-            }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Spawn Devil for the room creator
+            PhotonNetwork.Instantiate("Prefabs/" + devilPrefabName, spawnPointDevil.position, Quaternion.identity);
+        }
+        else
+        {
+            // Spawn Human for other players
+            PhotonNetwork.Instantiate("Prefabs/" + humanPrefabName, spawnPointHuman.position, Quaternion.identity);
+        }
     }
 
     public override void OnCreatedRoom()
@@ -57,5 +60,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Instantiate(prefabName, position, rotation);
         Debug.Log($"Spawned {prefabName} at {position}");
+    }
+
+    public void EndGame(string message)
+    {
+       Debug.Log($"Victory Screen Activated: {message}");
     }
 }

@@ -11,8 +11,11 @@ public class Human : Character, IPunObservable
     private float currentHealth;
     private int totalHumanDeaths;
 
+    private PhotonView photonView;
+
     void Start()
     {
+        photonView = GetComponent<PhotonView>();
         currentHealth = maxHealth;
         UpdateHealthUi();
     }
@@ -28,10 +31,19 @@ public class Human : Character, IPunObservable
         if (currentHealth <= 0.01f)
         {
             Debug.Log("Human has died!");
-            RespawnHuman();
+            photonView.RPC("HandleDeath", RpcTarget.MasterClient);
         }
+
+        // Synchronize the health update across clients
+        photonView.RPC("UpdateHealthUiRPC", RpcTarget.All, currentHealth);
     }
 
+    [PunRPC]
+    private void UpdateHealthUiRPC(float updatedHealth)
+    {
+        currentHealth = updatedHealth;
+        UpdateHealthUi();
+    }
     private void UpdateHealthUi()
     {
         healthBar.value = currentHealth / maxHealth;
@@ -44,33 +56,68 @@ public class Human : Character, IPunObservable
             healthBar.fillRect.GetComponent<Image>().color = Color.red;
     }
 
-    public void RespawnHuman()
+    [PunRPC]
+    private void HandleDeath()
     {
-        if (!PhotonNetwork.IsMasterClient) return; // Ensure respawn logic happens only on the master client
-
-        GameManager.Instance.RunCoroutine(HumanRespawn());
-    }
-
-    private IEnumerator HumanRespawn()
-    {
-        gameObject.SetActive(false);
+        if (!PhotonNetwork.IsMasterClient) return;
 
         totalHumanDeaths += 1;
 
-        if (totalHumanDeaths == 4)
+        Debug.Log($"Human was killed. Total Humans killed: {totalHumanDeaths}");
+        photonView.RPC("SyncDeathsRPC", RpcTarget.All, totalHumanDeaths);
+
+        if (totalHumanDeaths >= 4)
         {
             Debug.Log("4 humans killed! DEVIL WINS THE GAME");
+            photonView.RPC("AnnounceDevilVictory", RpcTarget.All);
         }
         else
         {
-            Debug.Log($"Human was killed. Total Humans killed: {totalHumanDeaths}");
+            StartCoroutine(HumanRespawn());
         }
+    }
+
+    [PunRPC]
+    private void SyncDeathsRPC(int updatedDeaths)
+    {
+        totalHumanDeaths = updatedDeaths;
+    }
+
+    [PunRPC]
+    private void AnnounceDevilVictory()
+    {
+        // Handle Devil victory logic
+        Debug.Log("Devil wins! All clients notified.");
+        GameManager.Instance.EndGame("Devil Wins!");
+    }
+
+    [PunRPC]
+    private IEnumerator RespawnHumanRPC(Vector3 respawnPosition)
+    {
+        gameObject.SetActive(false);
 
         yield return new WaitForSeconds(3);
+
+        transform.position = respawnPosition; // Update position on all clients
         gameObject.SetActive(true);
 
         currentHealth = maxHealth;
         UpdateHealthUi();
+
+        photonView.RPC("UpdateHealthUiRPC", RpcTarget.All, currentHealth);
+    }
+
+    private IEnumerator HumanRespawn()
+    {
+        Vector3 respawnPosition = GetRespawnPosition(); // You can customize this function to get a valid respawn position
+        photonView.RPC("RespawnHumanRPC", RpcTarget.All, respawnPosition);
+        yield return null; // The actual logic runs in RespawnHumanRPC
+    }
+
+    private Vector3 GetRespawnPosition()
+    {
+        // Example respawn logic, could be replaced with a spawn point system
+        return new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
     }
 
     private void OnTriggerEnter(Collider other)

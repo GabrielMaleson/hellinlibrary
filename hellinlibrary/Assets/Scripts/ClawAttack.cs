@@ -11,11 +11,17 @@ public class ClawAttack : MonoBehaviour, IPunObservable
     // Example state to sync (e.g., damage applied or other state variables)
     private float syncedDamage;
 
+    void Awake()
+    {
+        // Assign the PhotonView component
+        photonView = GetComponent<PhotonView>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         // Example: Update synced state
-        if (photonView.IsMine)
+        if (photonView != null && photonView.IsMine)
         {
             // Simulate some logic for demonstration
             syncedDamage = 25f;

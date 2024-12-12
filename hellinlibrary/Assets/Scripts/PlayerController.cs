@@ -101,9 +101,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             // Receive data from other clients
             networkPosition = (Vector3)stream.ReceiveNext();
             _nickname = (string)stream.ReceiveNext();
-
-            // Update name display
-            _namePlayer.text = _nickname;
         }
     }
 }
