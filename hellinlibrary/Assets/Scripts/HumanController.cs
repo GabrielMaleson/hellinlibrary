@@ -152,14 +152,11 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     {
         deliveredBooks += booksToDeliver;
 
-        if (booksToDeliver == 1)
-        {
-            Debug.Log($"Delivered {booksToDeliver} book to Fallen!");
-        }
-        else
-        {
-            Debug.Log($"Delivered {booksToDeliver} books to Fallen!");
-        }
+        string message = booksToDeliver == 1
+            ? $"Delivered {booksToDeliver} book to Fallen!"
+            : $"Delivered {booksToDeliver} books to Fallen!";
+
+        Debug.Log(message);
 
         if (deliveredBooks >= 10)
         {
