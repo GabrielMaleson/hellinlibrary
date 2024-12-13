@@ -51,6 +51,8 @@ MonoBehaviour:
   - SyncDeathsRPC
   - UpdateHealthUi
   - HandleDeath
+  - LogMessage
+  - RPC_LogMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

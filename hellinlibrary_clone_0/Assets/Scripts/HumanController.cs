@@ -143,6 +143,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (currentBooks > 0)
         {
+            Debug.Log($"Attempting to deliver {currentBooks} books..."); // Debugging
             photonView.RPC(nameof(RPC_DeliverBooks), RpcTarget.AllBuffered, currentBooks);
         }
     }
@@ -150,26 +151,37 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     private void RPC_DeliverBooks(int booksToDeliver)
     {
+        if (booksToDeliver <= 0) return;
+
         deliveredBooks += booksToDeliver;
 
         string message = booksToDeliver == 1
             ? $"Delivered {booksToDeliver} book to Fallen!"
             : $"Delivered {booksToDeliver} books to Fallen!";
 
-        Debug.Log(message);
+        Debug.Log(message); // Local log for debugging
+        photonView.RPC(nameof(RPC_LogMessage), RpcTarget.All, message);
 
         if (deliveredBooks >= 10)
         {
-            Debug.Log($"Delivered {deliveredBooks} books to Fallen! You are FREED from the curse!");
+            photonView.RPC(nameof(RPC_LogMessage), RpcTarget.All,
+                $"Delivered {deliveredBooks} books to Fallen! You are FREED from the curse!");
         }
         else
         {
-            Debug.Log($"Delivered {deliveredBooks} books so far to Fallen!");
+            photonView.RPC(nameof(RPC_LogMessage), RpcTarget.All,
+                $"Delivered {deliveredBooks} books so far to Fallen!");
         }
 
         currentBooks = 0;
         carriedBooks.Clear();
         UpdateSpeed();
+    }
+
+    [PunRPC]
+    private void RPC_LogMessage(string message)
+    {
+        Debug.Log(message);
     }
 
     public void DropBook()
@@ -212,9 +224,10 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
             nearestBook = other.gameObject;
         }
 
-        if (other.gameObject == fallenPrefab)
+        if (other.CompareTag("Fallen")) // Use tag to detect Fallen
         {
             nearFallen = true;
+            Debug.Log("Near Fallen object"); // Debugging
         }
     }
 
@@ -225,7 +238,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
             nearestBook = null;
         }
 
-        if (other.gameObject == fallenPrefab)
+        if (other.CompareTag("Fallen"))
         {
             nearFallen = false;
             dropHoldTime = 0f;
@@ -267,7 +280,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (nearFallen && currentBooks > 0)
         {
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(KeyCode.E))
             {
                 dropHoldTime += Time.deltaTime;
                 if (dropHoldTime >= 1.0f)

@@ -30,7 +30,7 @@ public class Human : Character, IPunObservable
 
         if (currentHealth <= 0.01f)
         {
-            Debug.Log("Human has died!");
+            photonView.RPC("LogMessage", RpcTarget.All, "Human has died!");
             photonView.RPC("HandleDeath", RpcTarget.MasterClient);
         }
 
@@ -44,6 +44,7 @@ public class Human : Character, IPunObservable
         currentHealth = updatedHealth;
         UpdateHealthUi();
     }
+
     private void UpdateHealthUi()
     {
         healthBar.value = currentHealth / maxHealth;
@@ -62,13 +63,12 @@ public class Human : Character, IPunObservable
         if (!PhotonNetwork.IsMasterClient) return;
 
         totalHumanDeaths += 1;
-
-        Debug.Log($"Human was killed. Total Humans killed: {totalHumanDeaths}");
+        photonView.RPC("LogMessage", RpcTarget.All, $"Human was killed. Total Humans killed: {totalHumanDeaths}");
         photonView.RPC("SyncDeathsRPC", RpcTarget.All, totalHumanDeaths);
 
         if (totalHumanDeaths >= 4)
         {
-            Debug.Log("4 humans killed! DEVIL WINS THE GAME");
+            photonView.RPC("LogMessage", RpcTarget.All, "4 humans killed! DEVIL WINS THE GAME");
             photonView.RPC("AnnounceDevilVictory", RpcTarget.All);
         }
         else
@@ -86,8 +86,6 @@ public class Human : Character, IPunObservable
     [PunRPC]
     private void AnnounceDevilVictory()
     {
-        // Handle Devil victory logic
-        Debug.Log("Devil wins! All clients notified.");
         GameManager.Instance.EndGame("Devil Wins!");
     }
 
@@ -125,13 +123,19 @@ public class Human : Character, IPunObservable
         if (other.CompareTag("Claw"))
         {
             TakeDamage(25f);
-            Debug.Log("Human took 25 damage");
+            photonView.RPC("LogMessage", RpcTarget.All, "Human took 25 damage");
         }
     }
 
     void Update()
     {
         // Any additional per-frame logic
+    }
+
+    [PunRPC]
+    private void LogMessage(string message)
+    {
+        Debug.Log(message);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
