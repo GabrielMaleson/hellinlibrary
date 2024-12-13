@@ -46,6 +46,11 @@ MonoBehaviour:
   - RPC_DeliverBooks
   - RPC_DropBook
   - RPC_PickUpBook
+  - UpdateHealthUiRPC
+  - AnnounceDevilVictory
+  - SyncDeathsRPC
+  - UpdateHealthUi
+  - HandleDeath
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

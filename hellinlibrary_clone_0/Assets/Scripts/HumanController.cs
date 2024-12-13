@@ -86,21 +86,44 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
         GameObject[] books = GameObject.FindGameObjectsWithTag("Book");
         foreach (GameObject book in books)
         {
+            if (book == null) continue;
+
             float distance = Vector3.Distance(transform.position, book.transform.position);
 
             if (distance <= pickupRange && distance < closestDistance)
             {
-                closestDistance = distance;
-                nearestBook = book;
+                PhotonView bookPhotonView = book.GetComponent<PhotonView>();
+                if (bookPhotonView != null) // Ensure PhotonView exists
+                {
+                    closestDistance = distance;
+                    nearestBook = book;
+                }
             }
         }
     }
 
     public void PickUpBook(GameObject book)
     {
+        if (book == null)
+        {
+            Debug.LogWarning("Attempted to pick up a book, but the book is null.");
+            return;
+        }
+
+        PhotonView bookPhotonView = book.GetComponent<PhotonView>();
+        if (bookPhotonView == null)
+        {
+            Debug.LogWarning($"The book {book.name} does not have a PhotonView component.");
+            return;
+        }
+
         if (currentBooks < maxBooks)
         {
-            photonView.RPC(nameof(RPC_PickUpBook), RpcTarget.AllBuffered, book.GetComponent<PhotonView>().ViewID);
+            photonView.RPC(nameof(RPC_PickUpBook), RpcTarget.AllBuffered, bookPhotonView.ViewID);
+        }
+        else
+        {
+            Debug.Log("Cannot pick up more books. Max capacity reached.");
         }
     }
 
