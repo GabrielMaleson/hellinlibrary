@@ -32,19 +32,10 @@ public class Devil : Character, IPunObservable
     {
         canAttack = false;
 
-        if (playerController.Movement.magnitude < 0.01f)
-        {
-            playerController.Movement = transform.forward;
-        }
-
-        Vector3 spawnPosition = transform.position + playerController.Movement;
+        // Always move the attack forward
+        Vector3 spawnPosition = transform.position + transform.forward * 0.5f;
 
         clawHitBox.transform.position = spawnPosition;
-
-        if (spawnPosition == new Vector3(0, 0, 0))
-        {
-            clawHitBox.transform.position = spawnPosition + new Vector3(0, 0, 1);
-        }
 
         clawHitBox.SetActive(true);
         yield return new WaitForSeconds(0.2f);
