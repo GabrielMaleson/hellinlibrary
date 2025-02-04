@@ -460,8 +460,9 @@ GameObject:
   - component: {fileID: 5597149898586261423}
   - component: {fileID: 3201177582550297972}
   - component: {fileID: 1199814511369974159}
-  - component: {fileID: 7954614615381113712}
   - component: {fileID: 9201277911318552140}
+  - component: {fileID: 2487631840633535374}
+  - component: {fileID: -1540479622618065436}
   m_Layer: 0
   m_Name: Human
   m_TagString: Human
@@ -576,7 +577,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 7954614615381113712}
   - {fileID: 9201277911318552140}
   sceneViewId: 0
   InstantiationId: 0
@@ -608,25 +608,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &7954614615381113712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6288102064512353006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5cf5a37c51bc704780299dbd0895a9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxBooks: 5
-  baseSpeed: 5
-  speedReductionPerBook: 0.5
-  humanSpeed: 0
-  pickupRange: 2
-  fallenPrefab: {fileID: 8422110555491226580, guid: cd130986d87b4704d8c6e66a1f47dceb, type: 3}
-  _playerSpeed: 10
 --- !u!114 &9201277911318552140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +622,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   healthBar: {fileID: 4399684116576536251}
+--- !u!114 &2487631840633535374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6288102064512353006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a663297c93b78ca4a87d8df797cdc719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCameraPrefab: {fileID: 2876097294870346875, guid: 1a6d6e77323694f44ac03451532c1e82, type: 3}
+  cameraHeight: 10
+  cameraAngle: 45
+--- !u!114 &-1540479622618065436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6288102064512353006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f261df978f8204bb93912f7bc36fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBooks: 5
+  baseSpeed: 5
+  speedReductionPerBook: 0.5
+  humanSpeed: 0
+  pickupRange: 2
+  fallenPrefab: {fileID: 0}
+  _playerSpeed: 10
 --- !u!1 &7731030344416299781
 GameObject:
   m_ObjectHideFlags: 0
