@@ -33,7 +33,7 @@ public class Devil : Character, IPunObservable
         canAttack = false;
 
         // Always move the attack forward
-        Vector3 spawnPosition = transform.position + transform.forward * 0.5f;
+        Vector3 spawnPosition = transform.position + (transform.forward * 1.5f) + (transform.up * -0.2f);
 
         clawHitBox.transform.position = spawnPosition;
 
@@ -65,12 +65,13 @@ public class Devil : Character, IPunObservable
     {
         if (photonView.IsMine)
         {
-            if (Input.GetKeyDown("space") && canAttack)
+            if (Input.GetKeyDown(KeyCode.Space) && canAttack)
             {
                 ApplySpeedDebuff(0.5f, attackCooldown);
                 photonView.RPC("AttackRPC", RpcTarget.All);
             }
         }
+      
     }
 
     [PunRPC]
