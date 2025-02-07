@@ -33,7 +33,7 @@ public class Devil : Character, IPunObservable
         canAttack = false;
 
         // Always move the attack forward
-        Vector3 spawnPosition = transform.position + (transform.forward * 1.5f) + (transform.up * -0.2f);
+        Vector3 spawnPosition = transform.position + (transform.forward * 1.5f) + (transform.up * 1.5f);
 
         clawHitBox.transform.position = spawnPosition;
 
