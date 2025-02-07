@@ -260,6 +260,12 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
 
         _nickname = photonView.IsMine ? PhotonNetwork.LocalPlayer.NickName : _nickname;
         _namePlayer.text = _nickname;
+
+        // Disable physics for non-local players
+        if (!photonView.IsMine)
+        {
+            _rb.isKinematic = true;
+        }
     }
 
     private void Update()
@@ -331,7 +337,8 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
+            // Smoothly interpolate to the network position
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 20);
         }
     }
 
@@ -339,6 +346,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
+            Debug.Log($"Sending Position: {transform.position}");
             stream.SendNext(transform.position);
             stream.SendNext(_nickname);
         }
@@ -346,6 +354,7 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
         {
             networkPosition = (Vector3)stream.ReceiveNext();
             _nickname = (string)stream.ReceiveNext();
+            Debug.Log($"Received Position: {networkPosition}");
         }
     }
 }

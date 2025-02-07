@@ -7,52 +7,63 @@ public class BookSpawner : MonoBehaviour, IPunObservable
 {
     [Header("References")]
     public GameObject bookPrefab; // Prefab of the Book to instantiate
-    public GameObject sinkholeChao; // Reference to the SinkholeChao surface
+    public Transform tilemapParent; // Parent object of TestTilemap containing the spawnable objects
 
     [Header("Spawn Settings")]
     public int numberOfBooks = 10; // Number of books to spawn
-    public float spawnRadius = 20f; // Radius around the SinkholeChao for spawning books
 
     private List<GameObject> spawnedBooks = new List<GameObject>();
+    private List<Transform> tileObjects = new List<Transform>();
 
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            CollectTileObjects();
             GenerateBooks();
+        }
+    }
+
+    private void CollectTileObjects()
+    {
+        if (tilemapParent == null)
+        {
+            Debug.LogError("Tilemap parent is not assigned.");
+            return;
+        }
+
+        foreach (Transform child in tilemapParent)
+        {
+            tileObjects.Add(child);
         }
     }
 
     private void GenerateBooks()
     {
-        if (bookPrefab == null || sinkholeChao == null)
+        if (bookPrefab == null || tileObjects.Count == 0)
         {
-            Debug.LogError("Book prefab or SinkholeChao is not assigned.");
+            Debug.LogError("Book prefab is not assigned or no tile objects found.");
             return;
         }
 
+        HashSet<int> usedIndices = new HashSet<int>();
+
         for (int i = 0; i < numberOfBooks; i++)
         {
-            Vector3 spawnPosition = GetRandomPointAroundSurface(sinkholeChao.transform.position, spawnRadius);
-            GameObject Book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.identity);
+            int randomIndex;
+            do
+            {
+                randomIndex = Random.Range(0, tileObjects.Count);
+            } while (usedIndices.Contains(randomIndex));
 
-            Book.name = "Book"; // Rename the book
-            spawnedBooks.Add(Book);
+            usedIndices.Add(randomIndex);
+            Transform tile = tileObjects[randomIndex];
+            Vector3 spawnPosition = tile.position + Vector3.up * 0.2f; // Slightly above the tile
+            GameObject book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.identity);
+
+            book.name = "Book";
+            spawnedBooks.Add(book);
         }
-    }
-
-    private Vector3 GetRandomPointAroundSurface(Vector3 center, float radius)
-    {
-        float angle = Random.Range(0f, 0.1f * Mathf.PI);
-        float distance = Random.Range(0f, radius);
-
-        Vector3 offset = new Vector3(Mathf.Cos(angle) * distance, 0, Mathf.Sin(angle) * distance);
-        Vector3 spawnPosition = center + offset;
-
-        // Ensure the position is slightly above the surface
-        spawnPosition.y = sinkholeChao.transform.position.y + 0.1f;
-
-        return spawnPosition;
     }
 
     // Sync object state
@@ -60,7 +71,6 @@ public class BookSpawner : MonoBehaviour, IPunObservable
     {
         if (stream.IsWriting)
         {
-            // Master client sends the data
             stream.SendNext(spawnedBooks.Count);
             foreach (var book in spawnedBooks)
             {
@@ -72,7 +82,6 @@ public class BookSpawner : MonoBehaviour, IPunObservable
         }
         else
         {
-            // Other clients receive the data
             int bookCount = (int)stream.ReceiveNext();
 
             for (int i = 0; i < bookCount; i++)
