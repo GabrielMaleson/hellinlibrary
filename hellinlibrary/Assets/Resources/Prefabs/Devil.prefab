@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 8501313637288567432}
   - component: {fileID: 8028272264104604615}
   - component: {fileID: 1244136415247355604}
+  - component: {fileID: 164681259650637675}
   m_Layer: 0
   m_Name: Devil
   m_TagString: Devil
@@ -446,7 +447,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6c3e0e38ebdf96643900d7b9fa3906b7, type: 3}
+  m_Sprite: {fileID: 152138000, guid: 50e5f9b3c527fac4e89dbf94227c9b03, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -535,3 +536,24 @@ MonoBehaviour:
   playerCameraPrefab: {fileID: 2876097294870346875, guid: 1a6d6e77323694f44ac03451532c1e82, type: 3}
   cameraHeight: 5
   cameraAngle: 45
+--- !u!95 &164681259650637675
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075192343841719549}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0dfe0fc6dea9b554baa66f475f48eaf0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
