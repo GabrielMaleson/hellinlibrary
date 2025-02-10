@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.36, y: 3.07}
+  m_AnchoredPosition: {x: -0.01, y: 4.62}
   m_SizeDelta: {x: 4.3293, y: 0.8537}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2432725324116573619
@@ -190,7 +190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1576075319561429323
 Transform:
   m_ObjectHideFlags: 0
@@ -348,7 +348,7 @@ Transform:
   m_GameObject: {fileID: 9075192343841719549}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.43, y: 1.82, z: -4.78}
+  m_LocalPosition: {x: 0, y: 4.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -375,8 +375,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 4, z: 3.7053852}
-  m_Center: {x: 0, y: 0, z: 0.23883486}
+  m_Size: {x: 5, y: 9.092119, z: 3.7053852}
+  m_Center: {x: 0, y: -0.05709815, z: 0.23883486}
 --- !u!114 &2984562009587468315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +446,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 152138000, guid: 50e5f9b3c527fac4e89dbf94227c9b03, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCameraPrefab: {fileID: 2876097294870346875, guid: 1a6d6e77323694f44ac03451532c1e82, type: 3}
-  cameraHeight: 5
+  cameraHeight: 10
   cameraAngle: 45
 --- !u!95 &164681259650637675
 Animator:
