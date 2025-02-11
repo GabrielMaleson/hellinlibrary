@@ -7827,7 +7827,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bookPrefab: {fileID: 5215301575378727464, guid: 4e22957c5b7ce684ea122777bc3b078b, type: 3}
+  tilemap: {fileID: 711246512}
   numberOfBooks: 9
+  spawnHeightOffset: 0.2
 --- !u!4 &2143846152
 Transform:
   m_ObjectHideFlags: 0

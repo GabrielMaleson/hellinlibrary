@@ -1,15 +1,17 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections.Generic;
 
-public class BookSpawner : MonoBehaviour, IPunObservable
+public class BookSpawner : MonoBehaviour
 {
     [Header("References")]
-    public GameObject bookPrefab; // Prefab of the Book to instantiate
+    public GameObject bookPrefab; // Prefab do livro
+    public Tilemap tilemap; // Referência ao Tilemap
 
     [Header("Spawn Settings")]
-    public int numberOfBooks = 10; // Number of books to spawn
+    public int numberOfBooks = 10; // Quantidade de livros para spawnar
+    public float spawnHeightOffset = 0.2f; // Altura acima do chão para spawnar os livros
 
     private List<GameObject> spawnedBooks = new List<GameObject>();
 
@@ -23,74 +25,37 @@ public class BookSpawner : MonoBehaviour, IPunObservable
 
     private void GenerateBooks()
     {
-        if (bookPrefab == null)
+        if (bookPrefab == null || tilemap == null)
         {
-            Debug.LogError("Book prefab is not assigned.");
+            Debug.LogError("Book prefab ou Tilemap não estão atribuídos.");
             return;
         }
 
-        // Find all GameObjects titled "Collision" in the Grid -> TestTilemap hierarchy
-        GameObject[] collisionObjects = GameObject.FindGameObjectsWithTag("Collision");
-
-        if (collisionObjects.Length == 0)
-        {
-            Debug.LogError("No GameObjects with the name 'Collision' found in the hierarchy.");
-            return;
-        }
+        // Obtém os limites do Tilemap
+        BoundsInt bounds = tilemap.cellBounds;
 
         for (int i = 0; i < numberOfBooks; i++)
         {
-            // Select a random "Collision" GameObject
-            GameObject collisionObject = collisionObjects[Random.Range(0, collisionObjects.Length)];
+            Vector3 spawnPosition = GetRandomPositionWithinBounds(bounds);
+            spawnPosition.y += spawnHeightOffset; // Ajusta a altura para ficar acima do chão
 
-            // Get the position of the "Collision" GameObject
-            Vector3 spawnPosition = collisionObject.transform.position;
-
-            // Spawn the book slightly above the "Collision" GameObject
-            spawnPosition.y += 0.1f;
-
-            // Instantiate the book
-            GameObject book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.identity);
-
-            book.name = "Book"; // Rename the book
+            GameObject book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.Euler(0, 270, 0)); // Ajusta a orientação
+            book.name = "Book";
             spawnedBooks.Add(book);
         }
     }
 
-    // Sync object state
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private Vector3 GetRandomPositionWithinBounds(BoundsInt bounds)
     {
-        if (stream.IsWriting)
-        {
-            // Master client sends the data
-            stream.SendNext(spawnedBooks.Count);
-            foreach (var book in spawnedBooks)
-            {
-                if (book != null)
-                {
-                    stream.SendNext(book.transform.position);
-                }
-            }
-        }
-        else
-        {
-            // Other clients receive the data
-            int bookCount = (int)stream.ReceiveNext();
+        Vector3Int randomCell = new Vector3Int(
+            Random.Range(bounds.xMin, bounds.xMax),
+            Random.Range(bounds.yMin, bounds.yMax),
+            Random.Range(bounds.zMin, bounds.zMax)
+        );
 
-            for (int i = 0; i < bookCount; i++)
-            {
-                if (spawnedBooks.Count <= i)
-                {
-                    Vector3 position = (Vector3)stream.ReceiveNext();
-                    GameObject book = Instantiate(bookPrefab, position, Quaternion.identity);
-                    book.name = $"book_{i}";
-                    spawnedBooks.Add(book);
-                }
-                else
-                {
-                    spawnedBooks[i].transform.position = (Vector3)stream.ReceiveNext();
-                }
-            }
-        }
+        Vector3 worldPosition = tilemap.CellToWorld(randomCell);
+        worldPosition.y = tilemap.transform.position.y; // Mantém a altura da base do tilemap
+
+        return worldPosition;
     }
 }
