@@ -7,61 +7,52 @@ public class BookSpawner : MonoBehaviour, IPunObservable
 {
     [Header("References")]
     public GameObject bookPrefab; // Prefab of the Book to instantiate
-    public Transform tilemapParent; // Parent object of TestTilemap containing the spawnable objects
 
     [Header("Spawn Settings")]
     public int numberOfBooks = 10; // Number of books to spawn
 
     private List<GameObject> spawnedBooks = new List<GameObject>();
-    private List<Transform> tileObjects = new List<Transform>();
 
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            CollectTileObjects();
             GenerateBooks();
-        }
-    }
-
-    private void CollectTileObjects()
-    {
-        if (tilemapParent == null)
-        {
-            Debug.LogError("Tilemap parent is not assigned.");
-            return;
-        }
-
-        foreach (Transform child in tilemapParent)
-        {
-            tileObjects.Add(child);
         }
     }
 
     private void GenerateBooks()
     {
-        if (bookPrefab == null || tileObjects.Count == 0)
+        if (bookPrefab == null)
         {
-            Debug.LogError("Book prefab is not assigned or no tile objects found.");
+            Debug.LogError("Book prefab is not assigned.");
             return;
         }
 
-        HashSet<int> usedIndices = new HashSet<int>();
+        // Find all GameObjects titled "Collision" in the Grid -> TestTilemap hierarchy
+        GameObject[] collisionObjects = GameObject.FindGameObjectsWithTag("Collision");
+
+        if (collisionObjects.Length == 0)
+        {
+            Debug.LogError("No GameObjects with the name 'Collision' found in the hierarchy.");
+            return;
+        }
 
         for (int i = 0; i < numberOfBooks; i++)
         {
-            int randomIndex;
-            do
-            {
-                randomIndex = Random.Range(0, tileObjects.Count);
-            } while (usedIndices.Contains(randomIndex));
+            // Select a random "Collision" GameObject
+            GameObject collisionObject = collisionObjects[Random.Range(0, collisionObjects.Length)];
 
-            usedIndices.Add(randomIndex);
-            Transform tile = tileObjects[randomIndex];
-            Vector3 spawnPosition = tile.position + Vector3.up * 0.2f; // Slightly above the tile
+            // Get the position of the "Collision" GameObject
+            Vector3 spawnPosition = collisionObject.transform.position;
+
+            // Spawn the book slightly above the "Collision" GameObject
+            spawnPosition.y += 0.1f;
+
+            // Instantiate the book
             GameObject book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.identity);
 
-            book.name = "Book";
+            book.name = "Book"; // Rename the book
             spawnedBooks.Add(book);
         }
     }
@@ -71,6 +62,7 @@ public class BookSpawner : MonoBehaviour, IPunObservable
     {
         if (stream.IsWriting)
         {
+            // Master client sends the data
             stream.SendNext(spawnedBooks.Count);
             foreach (var book in spawnedBooks)
             {
@@ -82,6 +74,7 @@ public class BookSpawner : MonoBehaviour, IPunObservable
         }
         else
         {
+            // Other clients receive the data
             int bookCount = (int)stream.ReceiveNext();
 
             for (int i = 0; i < bookCount; i++)
