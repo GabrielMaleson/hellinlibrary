@@ -3,7 +3,7 @@ guid: 76995c261afa56f48a8fddd2541e9af2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -93,11 +93,50 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spritesheet Adrian_0
+      name: Spritesheet Adrian_25
       rect:
         serializedVersion: 2
         x: 93
@@ -121,8 +160,8 @@ TextureImporter:
       name: Spritesheet Adrian_1
       rect:
         serializedVersion: 2
-        x: 93
-        y: 1913
+        x: 87
+        y: 1907
         width: 449
         height: 647
       alignment: 0
@@ -139,7 +178,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_2
+      name: Spritesheet Adrian_17
       rect:
         serializedVersion: 2
         x: 93
@@ -160,11 +199,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_
+      name: Spritesheet Adrian_2
       rect:
         serializedVersion: 2
-        x: 742
-        y: 1905
+        x: 766
+        y: 1913
         width: 429
         height: 647
       alignment: 0
@@ -181,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_4
+      name: Spritesheet Adrian_18
       rect:
         serializedVersion: 2
         x: 743
@@ -202,10 +241,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_5
+      name: Spritesheet Adrian_26
       rect:
         serializedVersion: 2
-        x: 743
+        x: 749
         y: 632
         width: 441
         height: 655
@@ -244,11 +283,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_7
+      name: Spritesheet Adrian_19
       rect:
         serializedVersion: 2
-        x: 1373
-        y: 1271
+        x: 1379
+        y: 1265
         width: 451
         height: 646
       alignment: 0
@@ -265,7 +304,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_8
+      name: Spritesheet Adrian_4
       rect:
         serializedVersion: 2
         x: 2008
@@ -286,7 +325,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_9
+      name: Spritesheet Adrian_27
       rect:
         serializedVersion: 2
         x: 2012
@@ -307,7 +346,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_10
+      name: Spritesheet Adrian_20
       rect:
         serializedVersion: 2
         x: 2013
@@ -328,7 +367,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_11
+      name: Spritesheet Adrian_5
       rect:
         serializedVersion: 2
         x: 2653
@@ -349,7 +388,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_12
+      name: Spritesheet Adrian_28
       rect:
         serializedVersion: 2
         x: 2653
@@ -370,7 +409,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_13
+      name: Spritesheet Adrian_21
       rect:
         serializedVersion: 2
         x: 2663
@@ -412,7 +451,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_15
+      name: Spritesheet Adrian_29
       rect:
         serializedVersion: 2
         x: 3304
@@ -433,7 +472,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_16
+      name: Spritesheet Adrian_7
       rect:
         serializedVersion: 2
         x: 3928
@@ -454,7 +493,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_17
+      name: Spritesheet Adrian_30
       rect:
         serializedVersion: 2
         x: 3938
@@ -475,11 +514,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_18
+      name: Spritesheet Adrian_23
       rect:
         serializedVersion: 2
-        x: 3943
-        y: 1273
+        x: 3967
+        y: 1291
         width: 429
         height: 639
       alignment: 0
@@ -496,7 +535,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_19
+      name: Spritesheet Adrian_8
       rect:
         serializedVersion: 2
         x: 4568
@@ -517,10 +556,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_20
+      name: Spritesheet Adrian_24
       rect:
         serializedVersion: 2
-        x: 4573
+        x: 4591
         y: 1303
         width: 434
         height: 624
@@ -541,7 +580,7 @@ TextureImporter:
       name: Spritesheet Adrian_31
       rect:
         serializedVersion: 2
-        x: 4577
+        x: 4571
         y: 636
         width: 476
         height: 651
@@ -559,7 +598,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_22
+      name: Spritesheet Adrian_32
       rect:
         serializedVersion: 2
         x: 5213
@@ -580,7 +619,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_23
+      name: Spritesheet Adrian_9
       rect:
         serializedVersion: 2
         x: 5213
@@ -601,7 +640,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_24
+      name: Spritesheet Adrian_10
       rect:
         serializedVersion: 2
         x: 5853
@@ -622,7 +661,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_25
+      name: Spritesheet Adrian_33
       rect:
         serializedVersion: 2
         x: 5864
@@ -643,7 +682,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_26
+      name: Spritesheet Adrian_11
       rect:
         serializedVersion: 2
         x: 6488
@@ -664,10 +703,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_27
+      name: Spritesheet Adrian_34
       rect:
         serializedVersion: 2
-        x: 6498
+        x: 6492
         y: 633
         width: 454
         height: 649
@@ -685,7 +724,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_28
+      name: Spritesheet Adrian_12
       rect:
         serializedVersion: 2
         x: 7124
@@ -727,7 +766,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_30
+      name: Spritesheet Adrian_13
       rect:
         serializedVersion: 2
         x: 7769
@@ -751,7 +790,7 @@ TextureImporter:
       name: Spritesheet Adrian_14
       rect:
         serializedVersion: 2
-        x: 8417
+        x: 8429
         y: 1913
         width: 449
         height: 634
@@ -769,11 +808,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_32
+      name: Spritesheet Adrian_15
       rect:
         serializedVersion: 2
-        x: 9048
-        y: 1913
+        x: 9060
+        y: 1916
         width: 439
         height: 644
       alignment: 0
@@ -790,7 +829,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_33
+      name: Spritesheet Adrian_16
       rect:
         serializedVersion: 2
         x: 9692
@@ -811,7 +850,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spritesheet Adrian_34
+      name: Spritesheet Adrian_22
       rect:
         serializedVersion: 2
         x: 3295
@@ -842,41 +881,41 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Spritesheet Adrian_: 899777172
-      Spritesheet Adrian_0: 1194359088
       Spritesheet Adrian_1: 338454812
-      Spritesheet Adrian_10: -336968283
-      Spritesheet Adrian_11: -1058052842
-      Spritesheet Adrian_12: 418289939
-      Spritesheet Adrian_13: 1400373035
+      Spritesheet Adrian_10: 1809244495
+      Spritesheet Adrian_11: 383023536
+      Spritesheet Adrian_12: 1413145750
+      Spritesheet Adrian_13: -228932131
       Spritesheet Adrian_14: 924800452
-      Spritesheet Adrian_15: 543270350
-      Spritesheet Adrian_16: -355429168
-      Spritesheet Adrian_17: -1985536366
-      Spritesheet Adrian_18: 2013610905
-      Spritesheet Adrian_19: -1938696949
-      Spritesheet Adrian_2: -135001807
-      Spritesheet Adrian_20: -821706225
-      Spritesheet Adrian_22: 1597382207
-      Spritesheet Adrian_23: 1410546211
-      Spritesheet Adrian_24: 1809244495
-      Spritesheet Adrian_25: 1001349679
-      Spritesheet Adrian_26: 383023536
-      Spritesheet Adrian_27: 301938222
-      Spritesheet Adrian_28: 1413145750
+      Spritesheet Adrian_15: 214939191
+      Spritesheet Adrian_16: -651238537
+      Spritesheet Adrian_17: -135001807
+      Spritesheet Adrian_18: -99568986
+      Spritesheet Adrian_19: -540905191
+      Spritesheet Adrian_2: 899777172
+      Spritesheet Adrian_20: -336968283
+      Spritesheet Adrian_21: 1400373035
+      Spritesheet Adrian_22: 1226694050
+      Spritesheet Adrian_23: 2013610905
+      Spritesheet Adrian_24: -821706225
+      Spritesheet Adrian_25: 1194359088
+      Spritesheet Adrian_26: -1517422332
+      Spritesheet Adrian_27: -529383006
+      Spritesheet Adrian_28: 418289939
+      Spritesheet Adrian_29: 543270350
       Spritesheet Adrian_3: 1919219560
-      Spritesheet Adrian_30: -228932131
+      Spritesheet Adrian_30: -1985536366
       Spritesheet Adrian_31: 361517951
-      Spritesheet Adrian_32: 214939191
-      Spritesheet Adrian_33: -651238537
-      Spritesheet Adrian_34: 1226694050
+      Spritesheet Adrian_32: 1597382207
+      Spritesheet Adrian_33: 1001349679
+      Spritesheet Adrian_34: 301938222
       Spritesheet Adrian_35: -1219868549
-      Spritesheet Adrian_4: -99568986
-      Spritesheet Adrian_5: -1517422332
+      Spritesheet Adrian_4: -815119946
+      Spritesheet Adrian_5: -1058052842
       Spritesheet Adrian_6: 1532400474
-      Spritesheet Adrian_7: -540905191
-      Spritesheet Adrian_8: -815119946
-      Spritesheet Adrian_9: -529383006
+      Spritesheet Adrian_7: -355429168
+      Spritesheet Adrian_8: -1938696949
+      Spritesheet Adrian_9: 1410546211
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

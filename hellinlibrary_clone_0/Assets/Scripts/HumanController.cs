@@ -346,7 +346,6 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            Debug.Log($"Sending Position: {transform.position}");
             stream.SendNext(transform.position);
             stream.SendNext(_nickname);
         }
@@ -354,7 +353,6 @@ public class HumanController : MonoBehaviourPunCallbacks, IPunObservable
         {
             networkPosition = (Vector3)stream.ReceiveNext();
             _nickname = (string)stream.ReceiveNext();
-            Debug.Log($"Received Position: {networkPosition}");
         }
     }
 }

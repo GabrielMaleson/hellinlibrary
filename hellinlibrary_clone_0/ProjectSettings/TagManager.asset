@@ -7,6 +7,9 @@ TagManager:
   - Book
   - Fallen
   - Human
+  - Devil
+  - Claw
+  - Collision
   layers:
   - Default
   - TransparentFX
