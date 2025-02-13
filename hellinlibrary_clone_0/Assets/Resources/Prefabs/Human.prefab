@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5936581251472031861}
   - component: {fileID: 2246864337445016130}
   - component: {fileID: 2740885119873324898}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2368132895128517179}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 3337881877571625650}
   - component: {fileID: 2972945680958074149}
   - component: {fileID: 5201163907177942977}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8205602790712763922}
   - component: {fileID: 4399684116576536251}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 5258335011337257135}
   - component: {fileID: 3233810806740359662}
   - component: {fileID: 1455189458030141835}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: -4444653621171674809}
   - component: {fileID: 4824411827018142575}
   - component: {fileID: 1063835057583178245}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Human
   m_TagString: Human
   m_Icon: {fileID: 0}
@@ -480,7 +480,7 @@ Transform:
   m_GameObject: {fileID: 6288102064512353006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0.5, z: 3.69}
+  m_LocalPosition: {x: 0.1, y: 5, z: 3.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -507,7 +507,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2.6174195, y: 5, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3201177582550297972
 MonoBehaviour:
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 2535907659193816788}
   - component: {fileID: 5537317695165645870}
   - component: {fileID: 4438677703546289803}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
