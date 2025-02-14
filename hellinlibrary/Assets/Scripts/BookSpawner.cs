@@ -8,6 +8,7 @@ public class BookSpawner : MonoBehaviour
     [Header("References")]
     public GameObject bookPrefab; // Prefab do livro
     public Tilemap tilemap; // Referência ao Tilemap
+    public LayerMask wallLayer; // Layer que contém os objetos WallCollision
 
     [Header("Spawn Settings")]
     public int numberOfBooks = 10; // Quantidade de livros para spawnar
@@ -39,9 +40,17 @@ public class BookSpawner : MonoBehaviour
             Vector3 spawnPosition = GetRandomPositionWithinBounds(bounds);
             spawnPosition.y += spawnHeightOffset; // Ajusta a altura para ficar acima do chão
 
-            GameObject book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.Euler(0, 270, 0)); // Ajusta a orientação
-            book.name = "Book";
-            spawnedBooks.Add(book);
+            // Verifica se o spawn está colidindo com algo
+            if (!IsPositionBlocked(spawnPosition))
+            {
+                GameObject book = PhotonNetwork.Instantiate(bookPrefab.name, spawnPosition, Quaternion.Euler(0, 270, 0)); // Ajusta a orientação
+                book.name = "Book";
+                spawnedBooks.Add(book);
+            }
+            else
+            {
+                i--; // Tenta novamente se a posição estiver bloqueada
+            }
         }
     }
 
@@ -57,5 +66,12 @@ public class BookSpawner : MonoBehaviour
         worldPosition.y = tilemap.transform.position.y; // Mantém a altura da base do tilemap
 
         return worldPosition;
+    }
+
+    private bool IsPositionBlocked(Vector3 position)
+    {
+        // Checa se há colisões na posição especificada
+        Collider[] colliders = Physics.OverlapSphere(position, 0.5f, wallLayer); // 0.5f é o raio da verificação
+        return colliders.Length > 0; // Se houver qualquer colisão, a posição está bloqueada
     }
 }

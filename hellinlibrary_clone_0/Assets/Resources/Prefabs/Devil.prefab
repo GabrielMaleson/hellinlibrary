@@ -108,8 +108,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -190,7 +190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1576075319561429323
 Transform:
   m_ObjectHideFlags: 0
@@ -323,7 +323,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1805891945213456374}
-  - component: {fileID: 4980328410856900514}
   - component: {fileID: 2984562009587468315}
   - component: {fileID: 2826863609606236590}
   - component: {fileID: 4497758835933001815}
@@ -333,6 +332,7 @@ GameObject:
   - component: {fileID: 1244136415247355604}
   - component: {fileID: 164681259650637675}
   - component: {fileID: 523017775811910567}
+  - component: {fileID: 8884517408788717636}
   m_Layer: 0
   m_Name: Devil
   m_TagString: Devil
@@ -357,27 +357,6 @@ Transform:
   - {fileID: 1576075319561429323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4980328410856900514
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9075192343841719549}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5, y: 9.092119, z: 3.7053852}
-  m_Center: {x: 0, y: -0.05709815, z: 0.23883486}
 --- !u!114 &2984562009587468315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,6 +486,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 2984562009587468315}
   - {fileID: 2826863609606236590}
+  - {fileID: 523017775811910567}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -570,3 +550,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb935fe141ef587469ca82b365abd173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &8884517408788717636
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075192343841719549}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.2670672
+  m_Height: 8.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5936581251472031861}
   - component: {fileID: 2246864337445016130}
   - component: {fileID: 2740885119873324898}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.066, y: 1.082}
+  m_AnchoredPosition: {x: -0.066, y: 3.89}
   m_SizeDelta: {x: 4.3293, y: 0.8537}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2246864337445016130
@@ -108,8 +108,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278248703
+  m_fontColor: {r: 1, g: 0.8955444, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2368132895128517179}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 3337881877571625650}
   - component: {fileID: 2972945680958074149}
   - component: {fileID: 5201163907177942977}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8205602790712763922}
   - component: {fileID: 4399684116576536251}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ RectTransform:
   m_GameObject: {fileID: 4074105934425683656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 319.99997}
-  m_LocalScale: {x: 1.7189, y: 1.4219, z: 1.2363}
+  m_LocalScale: {x: 4.7726974, y: 7.6039395, z: 3.4327104}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5258335011337257135}
@@ -317,7 +317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.0856, y: 199}
+  m_AnchoredPosition: {x: 9.0245, y: 340}
   m_SizeDelta: {x: 55, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4399684116576536251
@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 5258335011337257135}
   - component: {fileID: 3233810806740359662}
   - component: {fileID: 1455189458030141835}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 4824411827018142575}
   - component: {fileID: 1063835057583178245}
   - component: {fileID: 8670232538319343244}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Human
   m_TagString: Human
   m_Icon: {fileID: 0}
@@ -531,6 +531,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 9201277911318552140}
   - {fileID: -1540479622618065436}
+  - {fileID: 1063835057583178245}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -718,7 +719,7 @@ GameObject:
   - component: {fileID: 2535907659193816788}
   - component: {fileID: 5537317695165645870}
   - component: {fileID: 4438677703546289803}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

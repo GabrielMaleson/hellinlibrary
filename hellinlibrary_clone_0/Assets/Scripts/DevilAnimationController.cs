@@ -5,14 +5,21 @@ using UnityEngine;
 public class DevilAnimationController : MonoBehaviourPunCallbacks, IPunObservable
 {
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
     private Vector3 _lastMovement;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
+
         if (_animator == null)
         {
             Debug.LogError("Animator component is missing on the Player GameObject.");
+        }
+        if (_spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component is missing on the Player GameObject.");
         }
     }
 
@@ -47,7 +54,7 @@ public class DevilAnimationController : MonoBehaviourPunCallbacks, IPunObservabl
         else if (Mathf.Abs(moveX) > 0)
         {
             _animator.Play("devil side"); // Facing right
-            transform.localScale = new Vector3(moveX > 0 ? 1 : -1, 1, 1); // Flip for left/right
+            _spriteRenderer.flipX = moveX < 0; // Flip only the sprite, not the entire object
         }
         else
         {
