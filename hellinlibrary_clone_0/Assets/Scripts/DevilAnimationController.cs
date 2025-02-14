@@ -1,54 +1,70 @@
+using System;
+using Photon.Pun;
 using UnityEngine;
 
-public class DevilAnimationController : MonoBehaviour
+public class DevilAnimationController : MonoBehaviourPunCallbacks, IPunObservable
 {
     private Animator _animator;
-    private PlayerController _playerController;
-
-    // BlendTree parameters
-    private static readonly int Horizontal = Animator.StringToHash("Horizontal");
-    private static readonly int Vertical = Animator.StringToHash("Vertical");
+    private Vector3 _lastMovement;
 
     private void Awake()
     {
-        // Get the Animator component
         _animator = GetComponent<Animator>();
         if (_animator == null)
         {
             Debug.LogError("Animator component is missing on the Player GameObject.");
-            return;
-        }
-
-        // Get the PlayerController component
-        _playerController = GetComponent<PlayerController>();
-        if (_playerController == null)
-        {
-            Debug.LogError("PlayerController component is missing on the Player GameObject.");
-            return;
         }
     }
 
     private void Update()
     {
-        if (!_playerController.photonView.IsMine) return;
+        if (!photonView.IsMine) return;
 
-        // Get the movement vector from the PlayerController
-        Vector3 movement = _playerController.Movement;
+        // Get movement from PlayerController
+        Vector3 movement = GetComponent<PlayerController>().Movement;
 
-        // Normalize the movement vector to ensure consistent speed in all directions
-        movement.Normalize();
-
-        // Set the BlendTree parameters based on movement direction
-        _animator.SetFloat(Horizontal, movement.x);
-        _animator.SetFloat(Vertical, movement.z);
-
-        // Handle flipping the sprite for left/right movement
-        if (movement.x != 0)
+        if (movement.magnitude > 0)
         {
-            // Flip the sprite by inverting the X scale
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Sign(movement.x) * Mathf.Abs(scale.x);
-            transform.localScale = scale;
+            _lastMovement = movement;
+        }
+
+        UpdateAnimation(movement);
+    }
+
+    private void UpdateAnimation(Vector3 movement)
+    {
+        float moveX = movement.x;
+        float moveZ = movement.z;
+
+        if (moveZ > 0)
+        {
+            _animator.Play("devil cima"); // Facing up
+        }
+        else if (moveZ < 0)
+        {
+            _animator.Play("devil idle"); // Facing down (idle)
+        }
+        else if (Mathf.Abs(moveX) > 0)
+        {
+            _animator.Play("devil side"); // Facing right
+            transform.localScale = new Vector3(moveX > 0 ? 1 : -1, 1, 1); // Flip for left/right
+        }
+        else
+        {
+            _animator.Play("devil idle"); // Default to idle
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_lastMovement);
+        }
+        else
+        {
+            _lastMovement = (Vector3)stream.ReceiveNext();
+            UpdateAnimation(_lastMovement);
         }
     }
 }
